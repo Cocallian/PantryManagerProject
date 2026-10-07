@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginScreen">
+
+    <fragment
+        android:id="@+id/ingredientList"
+        android:name="com.example.myapplication.IngredientList"
+        android:label="fragment_ingredient_list_list"
+        tools:layout="@layout/fragment_ingredient_list_list" >
+        <action
+            android:id="@+id/action_ingredientList_to_recipeView"
+            app:destination="@id/recipeView" />
+        <action
+            android:id="@+id/action_ingredientList_to_settingScreen"
+            app:destination="@id/settingScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginScreen"
+        android:name="com.example.myapplication.LoginScreen"
+        android:label="fragment_login_screen"
+        tools:layout="@layout/fragment_login_screen" >
+        <action
+            android:id="@+id/action_loginScreen_to_ingredientList"
+            app:destination="@id/ingredientList" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeView"
+        android:name="com.example.myapplication.RecipeView"
+        android:label="fragment_recipe_view_list"
+        tools:layout="@layout/fragment_recipe_view_list" >
+        <action
+            android:id="@+id/action_recipeView_to_settingScreen"
+            app:destination="@id/settingScreen" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingScreen"
+        android:name="com.example.myapplication.SettingScreen"
+        android:label="fragment_setting_screen"
+        tools:layout="@layout/fragment_setting_screen" >
+        <action
+            android:id="@+id/action_settingScreen_to_ingredientList"
+            app:destination="@id/ingredientList" />
+        <action
+            android:id="@+id/action_settingScreen_to_recipeView"
+            app:destination="@id/recipeView" />
+    </fragment>
+</navigation>

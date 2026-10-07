@@ -1,14 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".LoginScreen">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/login_box_bg"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/UnameBox"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="Username"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/login_box_bg"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/PBox"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="Password"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:inputType="textPassword"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/logButt"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="54dp"
+        android:padding="15dp"
+        android:text="Button"
+        />
+
+
+</LinearLayout>
