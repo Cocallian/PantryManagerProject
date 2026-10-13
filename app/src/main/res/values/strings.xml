@@ -10,4 +10,21 @@
     <string name="login_password_hint">Password</string>
     <string name="login_button">Log In</string>
     <string name="login_invalid_credentials">Invalid Credentials</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Customise how Smart Pantry looks and behaves</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_appearance_desc">Switch between light and dark mode</string>
+    <string name="settings_light">Light</string>
+    <string name="settings_dark">Dark</string>
+    <string name="settings_units">Units</string>
+    <string name="settings_units_desc">Choose how quantities are displayed</string>
+    <string name="settings_metric">Metric</string>
+    <string name="settings_imperial">Imperial</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_expiry_alerts_desc">Alert me when food is about to expire</string>
+    <string name="settings_data">Data</string>
+    <string name="settings_import_desc">Import recipes or ingredients from a CSV file</string>
+    <string name="settings_import_csv">Import CSV</string>
 </resources>

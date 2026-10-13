@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import androidx.navigation.fragment.NavHostFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,9 +86,8 @@ public class LoginScreen extends Fragment {
 
         if(user.equals("admin") && pass.equals("admin"))
         {
-            requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.nav_host_fragment, new IngredientList()).commit();
+            // MainActivity removes this screen, shows the tab bar and opens the first tab.
+            ((MainActivity) requireActivity()).onLoginSuccess();
         }else if(user.isEmpty() || pass.isEmpty()) {
             Toast.makeText(getContext(), "Please enter in credentials", Toast.LENGTH_SHORT).show();
         }

@@ -1,12 +1,19 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +21,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class SettingScreen extends Fragment {
+
+    // SharedPreferences file and key used to remember the chosen theme.
+    // MainActivity reads these on launch to re-apply the theme.
+    public static final String PREFS_NAME = "pantry_settings";
+    public static final String KEY_DARK_MODE = "dark_mode";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,6 +55,7 @@ public class SettingScreen extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -52,13 +65,38 @@ public class SettingScreen extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_setting_screen, container, false);
+    }
+
+    // Views only exist once onCreateView has returned, so they are looked up here.
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        MaterialSwitch mode = view.findViewById(R.id.switch_dark_mode);
+        MaterialSwitch units = view.findViewById(R.id.switch_units);
+        MaterialSwitch alerts = view.findViewById(R.id.switch_expiry_alerts);
+
+        SharedPreferences prefs = requireContext()
+                .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        // Show the saved choice before attaching the listener, so setting the
+        // initial state does not trigger a theme change.
+        mode.setChecked(prefs.getBoolean(KEY_DARK_MODE, false));
+
+        mode.setOnCheckedChangeListener((button, isChecked) -> {
+            prefs.edit().putBoolean(KEY_DARK_MODE, isChecked).apply();
+            // Switches the whole app's theme; the activity is recreated automatically.
+            AppCompatDelegate.setDefaultNightMode(isChecked
+                    ? AppCompatDelegate.MODE_NIGHT_YES
+                    : AppCompatDelegate.MODE_NIGHT_NO);
+        });
     }
 }

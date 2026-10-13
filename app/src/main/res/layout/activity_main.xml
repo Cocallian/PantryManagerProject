@@ -22,13 +22,11 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
+    <!-- Plain container: MainActivity adds and shows/hides the fragments itself. -->
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
