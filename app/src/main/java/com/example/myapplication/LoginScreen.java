@@ -75,6 +75,11 @@ public class LoginScreen extends Fragment {
 
         log.setOnClickListener(v -> validate(un.getText().toString(), ps.getText().toString()));
 
+        /*
+        TODO: Database connections and testing code
+
+         */
+
     }
 
     public void validate(String user, String pass)
@@ -82,12 +87,12 @@ public class LoginScreen extends Fragment {
 
         if(user.equals("admin") && pass.equals("admin"))
         {
-            NavHostFragment.findNavController(this).navigate(R.id.action_loginScreen_to_ingredientList);
+            requireActivity().findViewById(R.id.toolbar).setVisibility(View.VISIBLE);
+            requireActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.nav_host_fragment, new IngredientList()).commit();
+        }else if(user.isEmpty() || pass.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter in credentials", Toast.LENGTH_SHORT).show();
         }
-        else {
-            Toast.makeText(getContext(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
-        }
-
 
     }
 }

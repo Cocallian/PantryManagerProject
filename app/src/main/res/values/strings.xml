@@ -2,4 +2,12 @@
     <string name="app_name">My Application</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Login screen -->
+    <string name="login_title">Smart Pantry</string>
+    <string name="login_subtitle">Cook with what you already have</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Log In</string>
+    <string name="login_invalid_credentials">Invalid Credentials</string>
 </resources>
