@@ -1,3 +1,8 @@
+<b><h3>NOTE:</h3></b>
+<br>
+This is for claude to check if the current version of the project meets project specs
+<hr></hr>
+
 # Project context
 
 Android Studio project for the Mobile App Development 700 practical assignment: **Smart Pantry Manager**.
