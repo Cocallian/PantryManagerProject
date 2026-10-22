@@ -6,25 +6,26 @@ import androidx.room.Query;
 
 import java.util.List;
 
-/** Database operations for user accounts (registration and login). */
 @Dao
 public interface UsersDao {
 
-    /** Adds a new user. Fails if the username is already taken (unique index). */
+    // Adds a new user.
     @Insert
     long insert(Users user);
 
-    /** Returns the user matching both username and password, or null (used for login). */
+    // Finds a user by username and password.
     @Query("SELECT * FROM users WHERE username = :username AND password = :password LIMIT 1")
     Users findUser(String username, String password);
 
-    /** Returns the user with this username, or null if none exists. */
+    // Finds a user by username only.
     @Query("SELECT * FROM users WHERE username = :username LIMIT 1")
     Users findByUsername(String username);
 
+    // Counts all users.
     @Query("SELECT COUNT(*) FROM users")
     int count();
 
+    // Gets all users.
     @Query("SELECT * FROM users ORDER BY id")
     List<Users> getAll();
 }

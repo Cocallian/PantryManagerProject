@@ -3,10 +3,6 @@ package com.example.myapplication.data;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/**
- * A recipe (one row in the "recipe" table). Its ingredients and steps live in the
- * RecipeIngredient and RecipeStep tables, linked by recipeId.
- */
 @Entity(tableName = "recipe")
 public class Recipe {
 
@@ -14,14 +10,7 @@ public class Recipe {
     public int id;
     public String name;
 
-    // ---------------------------------------------------------------------------------
-    // Seed helper
-    // ---------------------------------------------------------------------------------
-
-    /**
-     * Seed helper: inserts the starter recipes, but only if the recipe table is empty,
-     * so it is safe to call on every launch. Must run on a background thread.
-     */
+    // Adds the starter recipes once.
     public static void seedIfEmpty(RecipeDao dao) {
         if (dao.count() > 0) {
             return;
@@ -134,7 +123,7 @@ public class Recipe {
                         "Toss with the pasta and top with the grated cheese."});
     }
 
-    /** Inserts one recipe, then its ingredients and steps linked to the new id. */
+    // Saves a recipe with its ingredients and steps.
     private static void add(RecipeDao dao, String name, String[] ingredientSpecs, String[] steps) {
         Recipe recipe = new Recipe();
         recipe.name = name;

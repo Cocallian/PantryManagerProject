@@ -15,42 +15,24 @@ import android.view.ViewGroup;
 
 import com.google.android.material.materialswitch.MaterialSwitch;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingScreen#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SettingScreen extends Fragment {
 
-    // SharedPreferences file and key used to remember the chosen theme.
-    // MainActivity reads these on launch to re-apply the theme.
     public static final String PREFS_NAME = "pantry_settings";
     public static final String KEY_DARK_MODE = "dark_mode";
 
     public static final String KEY_LOGGED_IN_USER = "logged_in_user";
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    // Empty constructor required by Android.
     public SettingScreen() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingScreen.
-     */
-    // TODO: Rename and change types and number of parameters
+    // Creates the screen with arguments.
     public static SettingScreen newInstance(String param1, String param2) {
         SettingScreen fragment = new SettingScreen();
         Bundle args = new Bundle();
@@ -61,6 +43,7 @@ public class SettingScreen extends Fragment {
         return fragment;
     }
 
+    // Reads the saved arguments.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,13 +54,14 @@ public class SettingScreen extends Fragment {
         }
     }
 
+    // Inflates the settings layout.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_setting_screen, container, false);
     }
 
-    // Views only exist once onCreateView has returned, so they are looked up here.
+    // Sets up switches and logout button.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -89,25 +73,22 @@ public class SettingScreen extends Fragment {
         SharedPreferences prefs = requireContext()
                 .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        // Show the saved choice before attaching the listener, so setting the
-        // initial state does not trigger a theme change.
         mode.setChecked(prefs.getBoolean(KEY_DARK_MODE, false));
 
         mode.setOnCheckedChangeListener((button, isChecked) -> {
             prefs.edit().putBoolean(KEY_DARK_MODE, isChecked).apply();
-            // Switches the whole app's theme; the activity is recreated automatically.
             AppCompatDelegate.setDefaultNightMode(isChecked
                     ? AppCompatDelegate.MODE_NIGHT_YES
                     : AppCompatDelegate.MODE_NIGHT_NO);
         });
 
-        // Clear the saved user, then ask MainActivity to go back to the login screen
         view.findViewById(R.id.button_logout).setOnClickListener(v -> {
             logOut();
             ((MainActivity) requireActivity()).onLogout();
         });
     }
 
+    // Forgets the logged in user.
     public void logOut()
     {
         requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

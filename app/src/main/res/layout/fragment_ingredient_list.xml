@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- One pantry row: ingredient name (accent colour), quantity with unit, expiry date. -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,5 +37,13 @@
             android:layout_weight="1"
             android:gravity="end"
             android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <ImageButton
+            android:id="@+id/item_menu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/item_options"
+            android:src="@drawable/ic_more_vert" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

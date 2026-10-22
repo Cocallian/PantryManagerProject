@@ -1,7 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme: grey background with soft/dark purple accents (light mode). -->
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Purple accents: buttons, switches, selected tab pill -->
         <item name="colorPrimary">#6B4E9B</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorPrimaryContainer">#E3D7F4</item>
@@ -11,7 +9,6 @@
         <item name="colorSecondaryContainer">#CDBBE6</item>
         <item name="colorOnSecondaryContainer">#2A1750</item>
 
-        <!-- Grey background and surfaces (cards sit slightly lighter than the page) -->
         <item name="android:colorBackground">#D6D6DB</item>
         <item name="colorSurface">#D6D6DB</item>
         <item name="colorOnSurface">#1F1B24</item>

@@ -13,11 +13,15 @@ import androidx.room.RoomDatabase;
 )
 public abstract class AppDatabase extends RoomDatabase {
 
+    // Gives access to pantry table queries.
     public abstract PantryDao pantryDao();
+    // Gives access to recipe table queries.
     public abstract RecipeDao recipeDao();
+    // Gives access to user table queries.
     public abstract UsersDao usersDao();
 
     private static volatile AppDatabase instance;
+    // Returns the one shared database.
     public static AppDatabase getInstance(Context context) {
         if (instance == null) {
             synchronized (AppDatabase.class) {
@@ -26,7 +30,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "pantry_db")
-                            // Schema changed (users table / pantry foreign key): rebuild instead of crashing
                             .fallbackToDestructiveMigration()
                             .build();
                 }

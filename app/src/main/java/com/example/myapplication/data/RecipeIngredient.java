@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-/** One ingredient line of a recipe, e.g. "200 g flour". Linked to Recipe by recipeId. */
 @Entity(tableName = "recipe_ingredient")
 public class RecipeIngredient {
 
@@ -17,17 +16,7 @@ public class RecipeIngredient {
     public double quantity;
     public String unit;
 
-    // ---------------------------------------------------------------------------------
-    // Seed helper
-    // ---------------------------------------------------------------------------------
-
-    /**
-     * Seed helper: builds the ingredient rows for one recipe from short text specs.
-     * Each spec has the form "name:quantity:unit", e.g. "flour:200:g" or "egg:2:pcs".
-     *
-     * @param recipeId id returned when the parent recipe was inserted
-     * @param specs    one spec string per ingredient
-     */
+    // Turns text specs into ingredient objects.
     public static List<RecipeIngredient> seedFor(int recipeId, String... specs) {
         List<RecipeIngredient> list = new ArrayList<>();
         for (String spec : specs) {

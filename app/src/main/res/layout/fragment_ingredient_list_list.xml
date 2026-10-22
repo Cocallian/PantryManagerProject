@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Ingredient screen: page heading, column headings, then one ingredient per row. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -31,7 +30,6 @@
         android:text = "Add Pantry Item"
         android:id="@+id/itemButt"
         />
-    <!-- Column headings: same weights and side padding as the rows below, so they line up -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +37,7 @@
         android:layout_marginBottom="6dp"
         android:orientation="horizontal"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="64dp">
 
         <TextView
             android:layout_width="0dp"

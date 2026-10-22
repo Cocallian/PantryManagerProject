@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">My Application</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!-- Login screen -->
     <string name="login_title">Smart Pantry</string>
     <string name="login_subtitle">Cook with what you already have</string>
     <string name="login_username_hint">Username</string>
@@ -11,7 +9,6 @@
     <string name="login_button">Log In</string>
     <string name="login_invalid_credentials">Invalid Credentials</string>
 
-    <!-- Settings screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_subtitle">Customise how Smart Pantry looks and behaves</string>
     <string name="settings_appearance">Appearance</string>
@@ -44,5 +41,21 @@
     <string name="form_expiry_hint">Expiry date (optional)</string>
     <string name="form_expiry_helper">Format: yyyy-MM-dd, e.g. 2026-11-05</string>
     <string name="form_submit">Add to pantry</string>
+    <string name="recipes_title">Recipe Recommendation</string>
+    <string name="recipes_ready">Ready to Make</string>
+    <string name="recipes_almost">Almost There</string>
+    <string name="recipes_have_everything">You have everything you need</string>
+    <string name="recipes_missing">Missing: %1$s</string>
+    <string name="recipes_empty_ready">No recipes match your pantry yet. Add more ingredients.</string>
+    <string name="recipes_empty_almost">No recipes are missing just one ingredient.</string>
+    <string name="form_title_edit">Edit Item</string>
+    <string name="form_subtitle_edit">Update the details of this pantry item</string>
+    <string name="form_submit_edit">Save changes</string>
+    <string name="form_error_name">Enter an ingredient name</string>
+    <string name="form_error_quantity">Enter a quantity greater than 0</string>
+    <string name="form_error_expiry">Use the format yyyy-MM-dd</string>
     <string name="form_back">Back to ingredients</string>
+    <string name="item_edit">Edit</string>
+    <string name="item_delete">Delete</string>
+    <string name="item_options">Item options</string>
 </resources>

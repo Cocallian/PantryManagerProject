@@ -3,7 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Login screen palette -->
     <color name="brand_blue">#FF6B4E9B</color>
     <color name="login_background">#FFD6D6DB</color>
     <color name="login_text_primary">#FF1B1B1F</color>

@@ -4,50 +4,31 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.example.myapplication.placeholder.PlaceholderContent;
+import com.example.myapplication.data.AppDatabase;
+import com.example.myapplication.data.PantryItem;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
-/**
- * A fragment representing a list of Items.
- */
+import java.util.List;
+
 public class RecipeView extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 2;
+    private RecyclerView readyList;
+    private RecyclerView almostList;
+    private TextView emptyMessage;
+    private MaterialButtonToggleGroup toggle;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+    private final RecipeAdapter readyAdapter = new RecipeAdapter();
+    private final RecipeAdapter almostAdapter = new RecipeAdapter();
+
     public RecipeView() {
-    }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static RecipeView newInstance(int columnCount) {
-        RecipeView fragment = new RecipeView();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -55,17 +36,70 @@ public class RecipeView extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_view_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        readyList = view.findViewById(R.id.list_ready);
+        almostList = view.findViewById(R.id.list_almost);
+        emptyMessage = view.findViewById(R.id.empty_message);
+        toggle = view.findViewById(R.id.toggle_group);
+
+        setUpList(readyList, readyAdapter);
+        setUpList(almostList, almostAdapter);
+
+        toggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                updateVisibility();
             }
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter2(PlaceholderContent.ITEMS));
-        }
+        });
+
+        loadRecipes();
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden && readyList != null) {
+            loadRecipes();
+        }
+    }
+
+    private void setUpList(RecyclerView recyclerView, RecipeAdapter adapter) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void loadRecipes() {
+        Context context = requireContext();
+        int userId = context.getSharedPreferences(SettingScreen.PREFS_NAME, Context.MODE_PRIVATE)
+                .getInt(SettingScreen.KEY_LOGGED_IN_USER, -1);
+        AppDatabase db = AppDatabase.getInstance(context);
+
+        new Thread(() -> {
+            List<PantryItem> pantry = db.pantryDao().getAllForUser(userId);
+            List<RecipeMatcher.Result> all = RecipeMatcher.matchAll(pantry, db.recipeDao());
+            List<RecipeMatcher.Result> ready = RecipeMatcher.filterByMissing(all, 0);
+            List<RecipeMatcher.Result> almost = RecipeMatcher.filterByMissing(all, 1);
+
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    readyAdapter.setItems(ready);
+                    almostAdapter.setItems(almost);
+                    updateVisibility();
+                });
+            }
+        }).start();
+    }
+
+    private void updateVisibility() {
+        if (toggle == null) {
+            return;
+        }
+        boolean showReady = toggle.getCheckedButtonId() == R.id.button_ready;
+        RecipeAdapter active = showReady ? readyAdapter : almostAdapter;
+        boolean empty = active.getItemCount() == 0;
+
+        readyList.setVisibility(showReady && !empty ? View.VISIBLE : View.GONE);
+        almostList.setVisibility(!showReady && !empty ? View.VISIBLE : View.GONE);
+        emptyMessage.setVisibility(empty ? View.VISIBLE : View.GONE);
+        emptyMessage.setText(showReady ? R.string.recipes_empty_ready : R.string.recipes_empty_almost);
     }
 }

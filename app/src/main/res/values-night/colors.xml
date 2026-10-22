@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Login screen palette, dark mode -->
     <color name="brand_blue">#FFCDB8F0</color>
     <color name="login_background">#FF2B2B30</color>
     <color name="login_text_primary">#FFE6E1E9</color>

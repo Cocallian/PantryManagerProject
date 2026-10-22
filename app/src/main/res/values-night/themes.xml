@@ -1,7 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme: dark grey background with soft purple accents (dark mode). -->
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Purple accents: lighter tones so they stand out on dark grey -->
         <item name="colorPrimary">#CDB8F0</item>
         <item name="colorOnPrimary">#36215C</item>
         <item name="colorPrimaryContainer">#5A3F8A</item>
@@ -11,7 +9,6 @@
         <item name="colorSecondaryContainer">#5B4B78</item>
         <item name="colorOnSecondaryContainer">#EBDDFF</item>
 
-        <!-- Dark grey background and surfaces -->
         <item name="android:colorBackground">#2B2B30</item>
         <item name="colorSurface">#2B2B30</item>
         <item name="colorOnSurface">#E6E1E9</item>

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Full-screen form for adding a new pantry item. The page scrolls so it still fits
-     when the keyboard is open or on small screens. -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,6 +15,7 @@
         android:padding="20dp">
 
         <TextView
+            android:id="@+id/form_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/form_title"
@@ -24,6 +23,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/form_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -31,7 +31,6 @@
             android:text="@string/form_subtitle"
             android:textAppearance="?attr/textAppearanceBodyLarge" />
 
-        <!-- Card holding the input fields, same style as the Settings cards -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Name -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_name"
                     android:layout_width="match_parent"
@@ -60,7 +58,6 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Quantity (decimals allowed, e.g. 0.5) -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_quantity"
                     android:layout_width="match_parent"
@@ -77,7 +74,6 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Unit: pick from a fixed list so units stay consistent for recipe matching -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,7 +87,6 @@
                     android:layout_height="56dp"
                     android:entries="@array/pantry_units" />
 
-                <!-- Expiry date (optional) -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_expiry"
                     android:layout_width="match_parent"
@@ -111,14 +106,12 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Submit: saves the new pantry item -->
         <Button
             android:id="@+id/button_submit"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:text="@string/form_submit" />
 
-        <!-- Back: returns to the ingredient list without saving -->
         <Button
             android:id="@+id/button_back"
             style="@style/Widget.Material3.Button.OutlinedButton"

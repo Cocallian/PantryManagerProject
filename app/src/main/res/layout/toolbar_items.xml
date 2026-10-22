@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <!-- Each tab uses a selector background/text colour; MainActivity sets "selected" on the current one. -->
     <TextView
         android:id="@+id/ingredientList"
         android:layout_width="0dp"

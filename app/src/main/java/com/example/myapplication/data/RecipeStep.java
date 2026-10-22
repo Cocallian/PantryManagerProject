@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey;
 import java.util.ArrayList;
 import java.util.List;
 
-/** One cooking step of a recipe. stepNumber gives the order. Linked to Recipe by recipeId. */
 @Entity(tableName = "recipe_step")
 public class RecipeStep {
 
@@ -16,16 +15,7 @@ public class RecipeStep {
     public int stepNumber;
     public String text;
 
-    // ---------------------------------------------------------------------------------
-    // Seed helper
-    // ---------------------------------------------------------------------------------
-
-    /**
-     * Seed helper: builds the numbered step rows for one recipe.
-     *
-     * @param recipeId id returned when the parent recipe was inserted
-     * @param texts    the steps, in order
-     */
+    // Turns text into numbered recipe steps.
     public static List<RecipeStep> seedFor(int recipeId, String... texts) {
         List<RecipeStep> list = new ArrayList<>();
         for (int i = 0; i < texts.length; i++) {
