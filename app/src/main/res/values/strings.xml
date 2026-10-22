@@ -25,6 +25,24 @@
     <string name="settings_notifications">Notifications</string>
     <string name="settings_expiry_alerts_desc">Alert me when food is about to expire</string>
     <string name="settings_data">Data</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_logout">Log out</string>
     <string name="settings_import_desc">Import recipes or ingredients from a CSV file</string>
     <string name="settings_import_csv">Import CSV</string>
+    <string name="ingredients_title">My Pantry</string>
+    <string name="ingredients_subtitle">Everything you currently have in stock</string>
+    <string name="ingredients_col_name">Ingredient</string>
+    <string name="ingredients_col_quantity">Quantity</string>
+    <string name="ingredients_col_expiry">Expires</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">Fullscreen\nContent</string>
+    <string name="form_title">Add Ingredient</string>
+    <string name="form_subtitle">Enter what you have in your pantry</string>
+    <string name="form_name_hint">Ingredient name</string>
+    <string name="form_quantity_hint">Quantity</string>
+    <string name="form_unit_label">Unit</string>
+    <string name="form_expiry_hint">Expiry date (optional)</string>
+    <string name="form_expiry_helper">Format: yyyy-MM-dd, e.g. 2026-11-05</string>
+    <string name="form_submit">Add to pantry</string>
+    <string name="form_back">Back to ingredients</string>
 </resources>

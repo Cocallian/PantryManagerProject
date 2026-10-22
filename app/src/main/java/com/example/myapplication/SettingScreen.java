@@ -27,6 +27,8 @@ public class SettingScreen extends Fragment {
     public static final String PREFS_NAME = "pantry_settings";
     public static final String KEY_DARK_MODE = "dark_mode";
 
+    public static final String KEY_LOGGED_IN_USER = "logged_in_user";
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -98,5 +100,20 @@ public class SettingScreen extends Fragment {
                     ? AppCompatDelegate.MODE_NIGHT_YES
                     : AppCompatDelegate.MODE_NIGHT_NO);
         });
+
+        // Clear the saved user, then ask MainActivity to go back to the login screen
+        view.findViewById(R.id.button_logout).setOnClickListener(v -> {
+            logOut();
+            ((MainActivity) requireActivity()).onLogout();
+        });
+    }
+
+    public void logOut()
+    {
+        requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .remove(KEY_LOGGED_IN_USER)
+                .apply();
+
     }
 }

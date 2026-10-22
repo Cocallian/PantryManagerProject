@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Context;
+
+import com.example.myapplication.data.AppDatabase;
+import com.example.myapplication.data.Users;
+import com.example.myapplication.data.UsersDao;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,16 +86,40 @@ public class LoginScreen extends Fragment {
 
     }
 
+    private void saveLoggedInUser(int id)
+    {
+        requireContext().getSharedPreferences(SettingScreen.PREFS_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putInt(SettingScreen.KEY_LOGGED_IN_USER, id)
+                .apply();
+    }
     public void validate(String user, String pass)
     {
 
-        if(user.equals("admin") && pass.equals("admin"))
+        if(user.isEmpty() || pass.isEmpty())
         {
-            // MainActivity removes this screen, shows the tab bar and opens the first tab.
-            ((MainActivity) requireActivity()).onLoginSuccess();
-        }else if(user.isEmpty() || pass.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter in credentials", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please enter a username and password", Toast.LENGTH_SHORT).show();
+            return;
         }
+        UsersDao dao = AppDatabase.getInstance(requireContext()).usersDao();
+
+        // Database queries must not run on the main thread
+        new Thread(() -> {
+            Users cur = dao.findUser(user, pass);
+
+            // UI work (toast, fragment change) has to go back to the main thread
+            if (!isAdded()) {
+                return;
+            }
+            requireActivity().runOnUiThread(() -> {
+                if (cur == null) {
+                    Toast.makeText(getContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveLoggedInUser(cur.id);
+                    ((MainActivity) requireActivity()).onLoginSuccess();
+                }
+            });
+        }).start();
 
     }
 }

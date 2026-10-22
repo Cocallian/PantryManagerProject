@@ -21,9 +21,13 @@ public interface PantryDao {
     @Delete
     void delete(PantryItem item);
 
-    @Query("SELECT * FROM pantry ORDER BY name")
-    List<PantryItem> getAll();
+    /** Returns only this user's pantry items. */
+    @Query("SELECT * FROM pantry WHERE userId = :userId ORDER BY name")
+    List<PantryItem> getAllForUser(int userId);
 
     @Query("SELECT * FROM pantry WHERE id = :id")
     PantryItem getById(int id);
+
+    @Query("SELECT COUNT(*) FROM pantry")
+    int count();
 }

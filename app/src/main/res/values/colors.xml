@@ -4,10 +4,15 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Login screen palette -->
-    <color name="brand_blue">#FF0066EE</color>
-    <color name="login_background">#FFFFFFFF</color>
+    <color name="brand_blue">#FF6B4E9B</color>
+    <color name="login_background">#FFD6D6DB</color>
     <color name="login_text_primary">#FF1B1B1F</color>
     <color name="login_text_secondary">#FF6B7280</color>
-    <color name="login_input_fill">#FFF3F4F6</color>
+    <color name="login_input_fill">#FFE8E8EC</color>
     <color name="login_input_stroke">#FFD1D5DB</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

@@ -1,7 +1,30 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme: dark grey background with soft purple accents (dark mode). -->
     <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!-- Purple accents: lighter tones so they stand out on dark grey -->
+        <item name="colorPrimary">#CDB8F0</item>
+        <item name="colorOnPrimary">#36215C</item>
+        <item name="colorPrimaryContainer">#5A3F8A</item>
+        <item name="colorOnPrimaryContainer">#EBDDFF</item>
+        <item name="colorSecondary">#CBBDE0</item>
+        <item name="colorOnSecondary">#31254A</item>
+        <item name="colorSecondaryContainer">#5B4B78</item>
+        <item name="colorOnSecondaryContainer">#EBDDFF</item>
+
+        <!-- Dark grey background and surfaces -->
+        <item name="android:colorBackground">#2B2B30</item>
+        <item name="colorSurface">#2B2B30</item>
+        <item name="colorOnSurface">#E6E1E9</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+        <item name="colorSurfaceContainerLow">#34343A</item>
+        <item name="colorSurfaceContainer">#38383F</item>
+        <item name="colorSurfaceContainerHigh">#404048</item>
+        <item name="colorSurfaceContainerHighest">#4A4A52</item>
+        <item name="colorOutline">#948F99</item>
+    </style>
+
+    <style name="ThemeOverlay.MyApplication.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
 </resources>

@@ -16,8 +16,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.data.AppDatabase;
+import com.example.myapplication.data.PantryItem;
 import com.example.myapplication.data.Recipe;
 import com.example.myapplication.data.RecipeDao;
+import com.example.myapplication.data.Users;
+import com.example.myapplication.placeholder.PantryItemForm;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TI = "ingredients";
     private static final String TR = "recipes";
     private static final String TS = "settings";
+    private static final String TF = "pantry_form";
 
     private static final String STATE_CURRENT = "current_tab";
     private static final String STATE_PREVIOUS = "previous_tab";
@@ -69,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, backCallback);
 
+        // While a form is open the fragment back stack handles Back; our tab-history
+        // callback only takes over again once the form has been closed.
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            boolean formOpen = getSupportFragmentManager().getBackStackEntryCount() > 0;
+            backCallback.setEnabled(previousTag != null && !formOpen);
+
+            // The tab bar is hidden while a form is open and returns when it closes
+            // (currentTag is null on the login screen, where the bar must stay hidden)
+            toolbar.setVisibility(formOpen || currentTag == null ? View.GONE : View.VISIBLE);
+        });
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
@@ -81,7 +96,8 @@ public class MainActivity extends AppCompatActivity {
             backCallback.setEnabled(previousTag != null);
 
             boolean onLogin = getSupportFragmentManager().findFragmentByTag(TL) != null;
-            toolbar.setVisibility(onLogin ? View.GONE : View.VISIBLE);
+            boolean formOpen = getSupportFragmentManager().getBackStackEntryCount() > 0;
+            toolbar.setVisibility(onLogin || formOpen ? View.GONE : View.VISIBLE);
             updateHighlight();
         }
 
@@ -89,13 +105,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.recipeView).setOnClickListener(v -> switchTo(TR, true));
         findViewById(R.id.settingScreen).setOnClickListener(v -> switchTo(TS, true));
 
-        // TEMPORARY: verify the database and seed data, remove once confirmed
+        // Seed starter users and recipes on first run (background thread; no-op afterwards)
         new Thread(() -> {
+            AppDatabase db = AppDatabase.getInstance(getApplicationContext());
+            RecipeDao dao = db.recipeDao();
             try {
-                Thread.sleep(2000); // seeding runs on its own thread, so give it a moment
-            } catch (InterruptedException ignored) { }
-
-            RecipeDao dao = AppDatabase.getInstance(getApplicationContext()).recipeDao();
+                Users.seedIfEmpty(db.usersDao());
+                PantryItem.seedIfEmpty(db.pantryDao(), db.usersDao());
+                Recipe.seedIfEmpty(dao);
+            } catch (Exception e) {
+                Log.e("DB_TEST", "Seeding failed", e);
+            }
+            // TEMPORARY: log the seeded data to verify it, remove once confirmed
             List<Recipe> recipes = dao.getAll();
             Log.d("DB_TEST", "Recipes in database: " + recipes.size());
             for (Recipe r : recipes) {
@@ -123,7 +144,53 @@ public class MainActivity extends AppCompatActivity {
         switchTo(TI, false);
     }
 
+    /** Returns to the login screen: removes all tabs so the next user starts fresh. */
+    public void onLogout() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction tx = fm.beginTransaction().setReorderingAllowed(true);
+
+
+        Fragment f1 = fm.findFragmentByTag(TI);
+        Fragment f2 = fm.findFragmentByTag(TR);
+        Fragment f3 = fm.findFragmentByTag(TS);
+
+        if(f1 != null)tx.remove(f1);
+        if (f2!= null)tx.remove(f2);
+        if(f3 != null)tx.remove(f3);
+        tx.add(R.id.fragment_container, new LoginScreen(), TL);
+        tx.commit();
+
+        // Reset navigation state, otherwise switchTo() would ignore the first tab next login
+        currentTag = null;
+        previousTag = null;
+        backCallback.setEnabled(false);
+        toolbar.setVisibility(View.GONE);
+        updateHighlight();
+    }
+
+    /** Opens the pantry item form on top of the current tab; Back returns to the tab. */
+    public void openPantryItemForm() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment current = fm.findFragmentByTag(currentTag);
+
+        FragmentTransaction tx = fm.beginTransaction().setReorderingAllowed(true);
+        if (current != null) {
+            tx.hide(current);
+        }
+        tx.add(R.id.fragment_container, new PantryItemForm(), TF);
+        tx.addToBackStack(TF);
+        tx.commit();
+        backCallback.setEnabled(false);
+        toolbar.setVisibility(View.GONE);   // hide the tab bar while the form is open
+    }
+
     private void switchTo(String tag, boolean rememberPrevious) {
+        // Tapping a tab while a form is open closes the form first
+        FragmentManager backStackFm = getSupportFragmentManager();
+        if (backStackFm.getBackStackEntryCount() > 0) {
+            backStackFm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+
         if (tag.equals(currentTag)) {
             return;
         }

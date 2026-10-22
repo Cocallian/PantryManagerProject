@@ -1,0 +1,44 @@
+package com.example.myapplication.data;
+
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+/** An app user account (one row in the "users" table). Usernames must be unique. */
+@Entity(tableName = "users", indices = {@Index(value = "username", unique = true)})
+public class Users {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public String username;
+
+    public String password;
+
+    // ---------------------------------------------------------------------------------
+    // Seed helper
+    // ---------------------------------------------------------------------------------
+
+    /**
+     * Seed helper: inserts the starter accounts, but only if the users table is empty,
+     * so it is safe to call on every launch. Must run on a background thread.
+     */
+    public static void seedIfEmpty(UsersDao dao) {
+        if (dao.count() > 0) {
+            return;
+        }
+        add(dao, "admin", "admin");
+        add(dao, "alice", "alice123");
+        add(dao, "bob", "bob123");
+        add(dao, "charlie", "charlie123");
+        add(dao, "dana", "dana123");
+        add(dao, "eve", "eve123");
+    }
+
+    /** Builds and inserts one user. */
+    private static void add(UsersDao dao, String username, String password) {
+        Users user = new Users();
+        user.username = username;
+        user.password = password;
+        dao.insert(user);
+    }
+}
