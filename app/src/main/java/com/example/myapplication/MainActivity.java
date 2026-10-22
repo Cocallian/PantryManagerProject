@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -14,7 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.myapplication.data.AppDatabase;
+import com.example.myapplication.data.Recipe;
+import com.example.myapplication.data.RecipeDao;
 import com.google.android.material.appbar.MaterialToolbar;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,6 +88,22 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.ingredientList).setOnClickListener(v -> switchTo(TI, true));
         findViewById(R.id.recipeView).setOnClickListener(v -> switchTo(TR, true));
         findViewById(R.id.settingScreen).setOnClickListener(v -> switchTo(TS, true));
+
+        // TEMPORARY: verify the database and seed data, remove once confirmed
+        new Thread(() -> {
+            try {
+                Thread.sleep(2000); // seeding runs on its own thread, so give it a moment
+            } catch (InterruptedException ignored) { }
+
+            RecipeDao dao = AppDatabase.getInstance(getApplicationContext()).recipeDao();
+            List<Recipe> recipes = dao.getAll();
+            Log.d("DB_TEST", "Recipes in database: " + recipes.size());
+            for (Recipe r : recipes) {
+                Log.d("DB_TEST", r.id + " " + r.name + " | ingredients: "
+                        + dao.getIngredients(r.id).size()
+                        + ", steps: " + dao.getSteps(r.id).size());
+            }
+        }).start();
     }
 
     @Override

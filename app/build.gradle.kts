@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.legacy.support.v4)
@@ -45,7 +44,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
-    val nav_version = "2.10.2";
+    annotationProcessor("androidx.room:room-compiler:2.8.5")
+    implementation("androidx.room:room-runtime:2.8.5")
+    val nav_version = "2.10.2"
     implementation ("androidx.navigation:navigation-fragment:$nav_version");
     implementation ("androidx.navigation:navigation-ui:$nav_version")
 }
