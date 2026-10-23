@@ -1,4 +1,4 @@
-package com.example.myapplication.placeholder;
+package com.example.myapplication;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.R;
-import com.example.myapplication.SettingScreen;
 import com.example.myapplication.data.AppDatabase;
 import com.example.myapplication.data.PantryDao;
 import com.example.myapplication.data.PantryItem;

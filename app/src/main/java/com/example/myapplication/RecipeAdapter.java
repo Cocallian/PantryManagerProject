@@ -13,7 +13,16 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
+    public interface OnRecipeClickListener {
+        void onRecipeClick(int recipeId);
+    }
+
     private List<RecipeMatcher.Result> mValues = new ArrayList<>();
+    private final OnRecipeClickListener mListener;
+
+    public RecipeAdapter(OnRecipeClickListener listener) {
+        mListener = listener;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -24,6 +33,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, int position) {
         RecipeMatcher.Result result = mValues.get(position);
         holder.mNameView.setText(result.recipe.name);
+        holder.itemView.setOnClickListener(v -> mListener.onRecipeClick(result.recipe.id));
         if (result.missing.isEmpty()) {
             holder.mNoteView.setText(R.string.recipes_have_everything);
         } else {

@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -18,12 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.myapplication.data.AppDatabase;
 import com.example.myapplication.data.PantryItem;
 import com.example.myapplication.data.Recipe;
-import com.example.myapplication.data.RecipeDao;
 import com.example.myapplication.data.Users;
-import com.example.myapplication.placeholder.PantryItemForm;
 import com.google.android.material.appbar.MaterialToolbar;
 
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TR = "recipes";
     private static final String TS = "settings";
     private static final String TF = "pantry_form";
+    private static final String TD = "recipe_detail";
 
     private static final String STATE_CURRENT = "current_tab";
     private static final String STATE_PREVIOUS = "previous_tab";
@@ -104,21 +101,9 @@ public class MainActivity extends AppCompatActivity {
 
         new Thread(() -> {
             AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-            RecipeDao dao = db.recipeDao();
-            try {
-                Users.seedIfEmpty(db.usersDao());
-                PantryItem.seedIfEmpty(db.pantryDao(), db.usersDao());
-                Recipe.seedIfEmpty(dao);
-            } catch (Exception e) {
-                Log.e("DB_TEST", "Seeding failed", e);
-            }
-            List<Recipe> recipes = dao.getAll();
-            Log.d("DB_TEST", "Recipes in database: " + recipes.size());
-            for (Recipe r : recipes) {
-                Log.d("DB_TEST", r.id + " " + r.name + " | ingredients: "
-                        + dao.getIngredients(r.id).size()
-                        + ", steps: " + dao.getSteps(r.id).size());
-            }
+            Users.seedIfEmpty(db.usersDao());
+            PantryItem.seedIfEmpty(db.pantryDao(), db.usersDao());
+            Recipe.seedIfEmpty(db.recipeDao());
         }).start();
     }
 
@@ -170,20 +155,32 @@ public class MainActivity extends AppCompatActivity {
 
     // Opens the form, editing if id given.
     public void openPantryItemForm(int itemId) {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment current = fm.findFragmentByTag(currentTag);
-
         PantryItemForm form = new PantryItemForm();
         Bundle args = new Bundle();
         args.putInt(PantryItemForm.ARG_ITEM_ID, itemId);
         form.setArguments(args);
+        openFullScreen(form, TF);
+    }
+
+    // Opens the full recipe screen.
+    public void openRecipeDetail(int recipeId) {
+        RecipeDetail detail = new RecipeDetail();
+        Bundle args = new Bundle();
+        args.putInt(RecipeDetail.ARG_RECIPE_ID, recipeId);
+        detail.setArguments(args);
+        openFullScreen(detail, TD);
+    }
+
+    private void openFullScreen(Fragment fragment, String tag) {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment current = fm.findFragmentByTag(currentTag);
 
         FragmentTransaction tx = fm.beginTransaction().setReorderingAllowed(true);
         if (current != null) {
             tx.hide(current);
         }
-        tx.add(R.id.fragment_container, form, TF);
-        tx.addToBackStack(TF);
+        tx.add(R.id.fragment_container, fragment, tag);
+        tx.addToBackStack(tag);
         tx.commit();
         backCallback.setEnabled(false);
         toolbar.setVisibility(View.GONE);
@@ -225,6 +222,10 @@ public class MainActivity extends AppCompatActivity {
             tx.show(target);
         }
         tx.commit();
+
+        if (target instanceof RecipeView) {
+            ((RecipeView) target).refresh();
+        }
 
         if (rememberPrevious) {
             previousTag = currentTag;

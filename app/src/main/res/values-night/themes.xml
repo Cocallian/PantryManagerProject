@@ -19,9 +19,4 @@
         <item name="colorSurfaceContainerHighest">#4A4A52</item>
         <item name="colorOutline">#948F99</item>
     </style>
-
-    <style name="ThemeOverlay.MyApplication.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
-        <item name="fullscreenTextColor">@color/light_blue_A400</item>
-    </style>
 </resources>

@@ -37,10 +37,6 @@ public interface RecipeDao {
     @Query("SELECT * FROM recipe WHERE id = :id")
     Recipe getById(int id);
 
-    // Finds recipes matching a name.
-    @Query("SELECT * FROM recipe WHERE name LIKE :name")
-    List<Recipe> getByName(String name);
-
     // Counts all recipes.
     @Query("SELECT COUNT(*) FROM recipe")
     int count();

@@ -18,34 +18,8 @@ import com.example.myapplication.data.UsersDao;
 
 public class LoginScreen extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     // Empty constructor required by Android.
     public LoginScreen() {
-    }
-
-    // Creates the screen with arguments.
-    public static LoginScreen newInstance(String param1, String param2) {
-        LoginScreen fragment = new LoginScreen();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    // Reads the saved arguments.
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     // Inflates the login layout.

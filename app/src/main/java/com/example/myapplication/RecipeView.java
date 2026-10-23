@@ -25,8 +25,8 @@ public class RecipeView extends Fragment {
     private TextView emptyMessage;
     private MaterialButtonToggleGroup toggle;
 
-    private final RecipeAdapter readyAdapter = new RecipeAdapter();
-    private final RecipeAdapter almostAdapter = new RecipeAdapter();
+    private final RecipeAdapter readyAdapter = new RecipeAdapter(this::openDetail);
+    private final RecipeAdapter almostAdapter = new RecipeAdapter(this::openDetail);
 
     public RecipeView() {
     }
@@ -50,16 +50,23 @@ public class RecipeView extends Fragment {
             }
         });
 
-        loadRecipes();
         return view;
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden && readyList != null) {
+    public void onResume() {
+        super.onResume();
+        loadRecipes();
+    }
+
+    public void refresh() {
+        if (isAdded() && readyList != null) {
             loadRecipes();
         }
+    }
+
+    private void openDetail(int recipeId) {
+        ((MainActivity) requireActivity()).openRecipeDetail(recipeId);
     }
 
     private void setUpList(RecyclerView recyclerView, RecipeAdapter adapter) {

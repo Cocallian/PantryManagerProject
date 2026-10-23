@@ -17,10 +17,6 @@ public interface UsersDao {
     @Query("SELECT * FROM users WHERE username = :username AND password = :password LIMIT 1")
     Users findUser(String username, String password);
 
-    // Finds a user by username only.
-    @Query("SELECT * FROM users WHERE username = :username LIMIT 1")
-    Users findByUsername(String username);
-
     // Counts all users.
     @Query("SELECT COUNT(*) FROM users")
     int count();

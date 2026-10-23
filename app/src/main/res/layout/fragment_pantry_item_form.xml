@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?android:attr/colorBackground"
     android:fillViewport="true"
-    tools:context=".placeholder.PantryItemForm">
+    tools:context=".PantryItemForm">
 
     <LinearLayout
         android:layout_width="match_parent"

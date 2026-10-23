@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,35 +19,12 @@ import java.util.List;
 
 public class IngredientList extends Fragment implements MyItemRecyclerViewAdapter.OnItemActionListener {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
-
     private MyItemRecyclerViewAdapter adapter;
     private PantryDao dao;
     private int userId;
 
     // Empty constructor required by Android.
     public IngredientList() {
-    }
-
-    // Creates the screen with a column count.
-    @SuppressWarnings("unused")
-    public static IngredientList newInstance(int columnCount) {
-        IngredientList fragment = new IngredientList();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    // Reads the column count setting.
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     // Builds the list screen and loads items.
@@ -63,11 +39,7 @@ public class IngredientList extends Fragment implements MyItemRecyclerViewAdapte
         RecyclerView recyclerView = view.findViewById(R.id.list);
         if (recyclerView != null) {
             Context context = view.getContext();
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             adapter = new MyItemRecyclerViewAdapter(this);
             recyclerView.setAdapter(adapter);

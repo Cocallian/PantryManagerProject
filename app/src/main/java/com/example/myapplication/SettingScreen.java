@@ -22,36 +22,8 @@ public class SettingScreen extends Fragment {
 
     public static final String KEY_LOGGED_IN_USER = "logged_in_user";
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
     // Empty constructor required by Android.
     public SettingScreen() {
-    }
-
-    // Creates the screen with arguments.
-    public static SettingScreen newInstance(String param1, String param2) {
-        SettingScreen fragment = new SettingScreen();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
-    // Reads the saved arguments.
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
-        }
     }
 
     // Inflates the settings layout.
@@ -67,8 +39,6 @@ public class SettingScreen extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         MaterialSwitch mode = view.findViewById(R.id.switch_dark_mode);
-        MaterialSwitch units = view.findViewById(R.id.switch_units);
-        MaterialSwitch alerts = view.findViewById(R.id.switch_expiry_alerts);
 
         SharedPreferences prefs = requireContext()
                 .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
