@@ -56,10 +56,16 @@ public class IngredientList extends Fragment implements MyItemRecyclerViewAdapte
 
     // Loads the user's items into the list.
     private void loadItems() {
+        boolean highlight = requireContext()
+                .getSharedPreferences(SettingScreen.PREFS_NAME, Context.MODE_PRIVATE)
+                .getBoolean(SettingScreen.KEY_EXPIRY_HIGHLIGHT, true);
         new Thread(() -> {
             List<PantryItem> items = dao.getAllForUser(userId);
             if (isAdded()) {
-                requireActivity().runOnUiThread(() -> adapter.setItems(items));
+                requireActivity().runOnUiThread(() -> {
+                    adapter.setHighlightExpiring(highlight);
+                    adapter.setItems(items);
+                });
             }
         }).start();
     }

@@ -22,15 +22,19 @@ public class RecipeView extends Fragment {
 
     private RecyclerView readyList;
     private RecyclerView almostList;
+    private RecyclerView allList;
     private TextView emptyMessage;
     private MaterialButtonToggleGroup toggle;
 
     private final RecipeAdapter readyAdapter = new RecipeAdapter(this::openDetail);
     private final RecipeAdapter almostAdapter = new RecipeAdapter(this::openDetail);
+    private final RecipeAdapter allAdapter = new RecipeAdapter(this::openDetail);
 
+    // Empty constructor required by Android.
     public RecipeView() {
     }
 
+    // Builds the recipe screen and its tabs.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,11 +42,13 @@ public class RecipeView extends Fragment {
 
         readyList = view.findViewById(R.id.list_ready);
         almostList = view.findViewById(R.id.list_almost);
+        allList = view.findViewById(R.id.list_all);
         emptyMessage = view.findViewById(R.id.empty_message);
         toggle = view.findViewById(R.id.toggle_group);
 
         setUpList(readyList, readyAdapter);
         setUpList(almostList, almostAdapter);
+        setUpList(allList, allAdapter);
 
         toggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
@@ -53,27 +59,32 @@ public class RecipeView extends Fragment {
         return view;
     }
 
+    // Reloads recipes when the screen reappears.
     @Override
     public void onResume() {
         super.onResume();
         loadRecipes();
     }
 
+    // Reloads recipes if the screen is showing.
     public void refresh() {
         if (isAdded() && readyList != null) {
             loadRecipes();
         }
     }
 
+    // Opens the detail screen for a recipe.
     private void openDetail(int recipeId) {
         ((MainActivity) requireActivity()).openRecipeDetail(recipeId);
     }
 
+    // Attaches a layout manager and adapter to a list.
     private void setUpList(RecyclerView recyclerView, RecipeAdapter adapter) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(adapter);
     }
 
+    // Matches recipes against the pantry and fills the lists.
     private void loadRecipes() {
         Context context = requireContext();
         int userId = context.getSharedPreferences(SettingScreen.PREFS_NAME, Context.MODE_PRIVATE)
@@ -90,23 +101,29 @@ public class RecipeView extends Fragment {
                 requireActivity().runOnUiThread(() -> {
                     readyAdapter.setItems(ready);
                     almostAdapter.setItems(almost);
+                    allAdapter.setItems(all);
                     updateVisibility();
                 });
             }
         }).start();
     }
 
+    // Shows the selected list or the empty message.
     private void updateVisibility() {
         if (toggle == null) {
             return;
         }
-        boolean showReady = toggle.getCheckedButtonId() == R.id.button_ready;
-        RecipeAdapter active = showReady ? readyAdapter : almostAdapter;
+        int checked = toggle.getCheckedButtonId();
+        boolean showReady = checked == R.id.button_ready;
+        boolean showAlmost = checked == R.id.button_almost;
+        RecipeAdapter active = showReady ? readyAdapter : showAlmost ? almostAdapter : allAdapter;
         boolean empty = active.getItemCount() == 0;
 
         readyList.setVisibility(showReady && !empty ? View.VISIBLE : View.GONE);
-        almostList.setVisibility(!showReady && !empty ? View.VISIBLE : View.GONE);
+        almostList.setVisibility(showAlmost && !empty ? View.VISIBLE : View.GONE);
+        allList.setVisibility(!showReady && !showAlmost && !empty ? View.VISIBLE : View.GONE);
         emptyMessage.setVisibility(empty ? View.VISIBLE : View.GONE);
-        emptyMessage.setText(showReady ? R.string.recipes_empty_ready : R.string.recipes_empty_almost);
+        emptyMessage.setText(showReady ? R.string.recipes_empty_ready
+                : showAlmost ? R.string.recipes_empty_almost : R.string.recipes_empty_all);
     }
 }

@@ -13,6 +13,8 @@
     <string name="settings_appearance_desc">Switch between light and dark mode</string>
     <string name="settings_light">Light</string>
     <string name="settings_dark">Dark</string>
+    <string name="settings_expiry_title">Expiry warnings</string>
+    <string name="settings_expiry_highlight_desc">Highlight ingredients close to expiry in red</string>
     <string name="settings_account">Account</string>
     <string name="settings_logout">Log out</string>
     <string name="ingredients_title">My Pantry</string>
@@ -28,8 +30,10 @@
     <string name="form_expiry_helper">Format: yyyy-MM-dd, e.g. 2026-11-05</string>
     <string name="form_submit">Add to pantry</string>
     <string name="recipes_title">Recipe Recommendation</string>
-    <string name="recipes_ready">Ready to Make</string>
-    <string name="recipes_almost">Almost There</string>
+    <string name="recipes_ready">Ready</string>
+    <string name="recipes_all">All</string>
+    <string name="recipes_empty_all">No recipes found.</string>
+    <string name="recipes_almost">Almost</string>
     <string name="detail_ingredients">Ingredients</string>
     <string name="detail_recipe">Recipe</string>
     <string name="detail_back">Back to recommendations</string>
@@ -47,4 +51,5 @@
     <string name="item_edit">Edit</string>
     <string name="item_delete">Delete</string>
     <string name="item_options">Item options</string>
+
 </resources>

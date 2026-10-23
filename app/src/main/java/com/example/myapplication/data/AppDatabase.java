@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 @Database(
         entities = {PantryItem.class, Recipe.class, RecipeIngredient.class, RecipeStep.class, Users.class},
-        version = 3,
+        version = 6,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -30,7 +30,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "pantry_db")
-                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

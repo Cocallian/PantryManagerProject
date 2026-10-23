@@ -6,4 +6,5 @@
     <color name="login_text_secondary">#FFCAC4D0</color>
     <color name="login_input_fill">#FF38383F</color>
     <color name="login_input_stroke">#FF5A5A63</color>
+    <color name="expiry_warning_background">#FF5C2B2B</color>
 </resources>

@@ -15,12 +15,14 @@ public class RecipeMatcher {
         public final Recipe recipe;
         public final List<String> missing;
 
+        // Pairs a recipe with the ingredients the pantry is missing.
         public Result(Recipe recipe, List<String> missing) {
             this.recipe = recipe;
             this.missing = missing;
         }
     }
 
+    // Checks every recipe against the pantry and records what is missing.
     public static List<Result> matchAll(List<PantryItem> pantry, RecipeDao dao) {
         List<Result> results = new ArrayList<>();
         for (Recipe recipe : dao.getAll()) {
@@ -35,6 +37,7 @@ public class RecipeMatcher {
         return results;
     }
 
+    // Keeps only recipes missing exactly this many ingredients.
     public static List<Result> filterByMissing(List<Result> all, int missingCount) {
         List<Result> out = new ArrayList<>();
         for (Result result : all) {
@@ -45,6 +48,7 @@ public class RecipeMatcher {
         return out;
     }
 
+    // Checks the pantry holds at least the required amount of an ingredient.
     private static boolean hasIngredient(List<PantryItem> pantry, RecipeIngredient ingredient) {
         String search = ingredient.name.trim().toLowerCase(Locale.ROOT);
         String family = unitFamily(ingredient.unit);
@@ -60,6 +64,7 @@ public class RecipeMatcher {
         return have >= needed - 0.0001;
     }
 
+    // Groups units that can be converted, such as g and kg.
     private static String unitFamily(String unit) {
         switch (unit.trim().toLowerCase(Locale.ROOT)) {
             case "g":
@@ -76,6 +81,7 @@ public class RecipeMatcher {
         }
     }
 
+    // Gives the multiplier that converts a unit to its base unit.
     private static double unitFactor(String unit) {
         switch (unit.trim().toLowerCase(Locale.ROOT)) {
             case "kg":

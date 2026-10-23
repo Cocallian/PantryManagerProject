@@ -42,6 +42,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/recipes_almost" />
+
+        <Button
+            android:id="@+id/button_all"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/recipes_all" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <TextView
@@ -63,6 +71,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_almost"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/fragment_recipe_view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_all"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

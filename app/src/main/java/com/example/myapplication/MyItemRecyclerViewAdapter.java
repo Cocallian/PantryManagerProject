@@ -1,5 +1,8 @@
 package com.example.myapplication;
 
+import android.content.res.ColorStateList;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -11,8 +14,13 @@ import android.widget.TextView;
 import com.example.myapplication.data.PantryItem;
 import com.example.myapplication.databinding.FragmentIngredientListBinding;
 
+import com.google.android.material.card.MaterialCardView;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
@@ -21,7 +29,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         void onDelete(PantryItem item);
     }
 
+    private static final int EXPIRY_WARNING_DAYS = 7;
+
     private List<PantryItem> mValues = new ArrayList<>();
+    private boolean highlightExpiring = true;
+    private String expiryCutoff = "";
     private final OnItemActionListener mListener;
 
     // Stores who to tell about clicks.
@@ -52,6 +64,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         holder.mExpiryView.setText(item.expiryDate != null ? item.expiryDate : "-");
 
+        boolean expiringSoon = highlightExpiring && item.expiryDate != null
+                && item.expiryDate.compareTo(expiryCutoff) <= 0;
+        if (expiringSoon) {
+            holder.mCard.setCardBackgroundColor(
+                    ContextCompat.getColor(holder.mCard.getContext(), R.color.expiry_warning_background));
+        } else {
+            holder.mCard.setCardBackgroundColor(holder.mDefaultCardColor);
+        }
+
         holder.mMenuButton.setOnClickListener(v -> showMenu(v, item));
     }
 
@@ -72,10 +93,18 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         popup.show();
     }
 
+    // Turns the red highlight for items close to expiry on or off.
+    public void setHighlightExpiring(boolean highlight) {
+        highlightExpiring = highlight;
+    }
+
     // Replaces the list data and refreshes.
     public void setItems(List<PantryItem> item)
     {
         mValues = item;
+        Calendar cutoff = Calendar.getInstance();
+        cutoff.add(Calendar.DAY_OF_YEAR, EXPIRY_WARNING_DAYS);
+        expiryCutoff = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(cutoff.getTime());
         notifyDataSetChanged();
     }
 
@@ -90,6 +119,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final TextView mQuantityView;
         public final TextView mExpiryView;
         public final View mMenuButton;
+        public final MaterialCardView mCard;
+        public final ColorStateList mDefaultCardColor;
         public PantryItem mItem;
 
         // Finds the views inside a row.
@@ -99,6 +130,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
             mQuantityView = binding.itemQuantity;
             mExpiryView = binding.itemExpiry;
             mMenuButton = binding.itemMenu;
+            mCard = binding.getRoot();
+            mDefaultCardColor = mCard.getCardBackgroundColor();
         }
 
         // Describes the row as text.

@@ -19,6 +19,7 @@ public class SettingScreen extends Fragment {
 
     public static final String PREFS_NAME = "pantry_settings";
     public static final String KEY_DARK_MODE = "dark_mode";
+    public static final String KEY_EXPIRY_HIGHLIGHT = "expiry_highlight";
 
     public static final String KEY_LOGGED_IN_USER = "logged_in_user";
 
@@ -51,6 +52,11 @@ public class SettingScreen extends Fragment {
                     ? AppCompatDelegate.MODE_NIGHT_YES
                     : AppCompatDelegate.MODE_NIGHT_NO);
         });
+
+        MaterialSwitch highlight = view.findViewById(R.id.switch_expiry_highlight);
+        highlight.setChecked(prefs.getBoolean(KEY_EXPIRY_HIGHLIGHT, true));
+        highlight.setOnCheckedChangeListener((button, isChecked) ->
+                prefs.edit().putBoolean(KEY_EXPIRY_HIGHLIGHT, isChecked).apply());
 
         view.findViewById(R.id.button_logout).setOnClickListener(v -> {
             logOut();

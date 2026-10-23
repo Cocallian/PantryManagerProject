@@ -7,4 +7,5 @@
     <color name="login_text_secondary">#FF6B7280</color>
     <color name="login_input_fill">#FFE8E8EC</color>
     <color name="login_input_stroke">#FFD1D5DB</color>
+    <color name="expiry_warning_background">#FFFFDADA</color>
 </resources>

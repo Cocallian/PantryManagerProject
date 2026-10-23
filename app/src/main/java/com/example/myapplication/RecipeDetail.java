@@ -24,6 +24,7 @@ public class RecipeDetail extends Fragment {
 
     private FragmentRecipeDetailBinding binding;
 
+    // Inflates the recipe detail layout.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,6 +34,7 @@ public class RecipeDetail extends Fragment {
         return binding.getRoot();
     }
 
+    // Loads the recipe, its ingredients and its steps.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -81,6 +83,7 @@ public class RecipeDetail extends Fragment {
         }).start();
     }
 
+    // Clears the binding to avoid leaks.
     @Override
     public void onDestroyView() {
         super.onDestroyView();

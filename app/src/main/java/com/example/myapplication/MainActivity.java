@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
         backCallback = new OnBackPressedCallback(false) {
+            // Returns to the previous tab when back is pressed.
             @Override
             public void handleOnBackPressed() {
                 String target = previousTag;
@@ -171,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         openFullScreen(detail, TD);
     }
 
+    // Shows a fragment full screen over the current one.
     private void openFullScreen(Fragment fragment, String tag) {
         FragmentManager fm = getSupportFragmentManager();
         Fragment current = fm.findFragmentByTag(currentTag);

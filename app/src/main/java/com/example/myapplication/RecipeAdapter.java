@@ -20,15 +20,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     private List<RecipeMatcher.Result> mValues = new ArrayList<>();
     private final OnRecipeClickListener mListener;
 
+    // Stores who to tell about recipe clicks.
     public RecipeAdapter(OnRecipeClickListener listener) {
         mListener = listener;
     }
 
+    // Creates a new row view.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(FragmentRecipeViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
+    // Fills a row with the recipe name and what is missing.
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         RecipeMatcher.Result result = mValues.get(position);
@@ -42,11 +45,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         }
     }
 
+    // Replaces the list data and refreshes.
     public void setItems(List<RecipeMatcher.Result> items) {
         mValues = items;
         notifyDataSetChanged();
     }
 
+    // Returns how many rows there are.
     @Override
     public int getItemCount() {
         return mValues.size();
@@ -56,6 +61,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         public final TextView mNameView;
         public final TextView mNoteView;
 
+        // Finds the views inside a row.
         public ViewHolder(FragmentRecipeViewBinding binding) {
             super(binding.getRoot());
             mNameView = binding.recipeName;
